@@ -2,8 +2,8 @@
 
 - 更好地mvp模板，约束代码
 - 低耦合、方便单元测试
-- 独立的视图控制，切分视图逻辑
-- 横向切分activity/fragment业务逻辑
+- 基于databing切分视图控制逻辑
+- 制定viewwrapper横向切分activity/fragment业务逻辑
 
 todo:
 
