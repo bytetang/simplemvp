@@ -2,17 +2,14 @@ package tj.exercise.dagger;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
-import javax.inject.Inject;
-
-import tj.exercise.dagger.adapter.MainListAdapter;
 import tj.exercise.dagger.component.DaggerTestMainComponent;
+import tj.exercise.dagger.databinding.TestMainDataBinding;
 import tj.exercise.dagger.module.TestMainModule;
 import tj.exercise.dagger.p.TestMainPresenter;
 import tj.exercise.dagger.v.TestMainView;
-import tj.exercise.simplemvp.base.v.AbsActivity;
+import tj.exercise.dagger.v.vw.TestMainViewWrapper;
+import tj.exercise.simplemvp.base.v.MvpvmActivity;
 import tj.exercise.simplemvp.di.ActivityScoped;
 
 /**
@@ -20,39 +17,23 @@ import tj.exercise.simplemvp.di.ActivityScoped;
  */
 
 @ActivityScoped
-public class TestMainActivity extends AbsActivity<TestMainPresenter> implements TestMainView {
+public class TestMainActivity extends MvpvmActivity<TestMainPresenter, TestMainViewWrapper, TestMainDataBinding>
+		implements TestMainView {
 
-    @Inject
-    MainListAdapter adapter;
+	@Override
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		generateDataBinding(R.layout.activity_main);
+		presenter.loadData();
+	}
 
-    private RecyclerView rcyTest;
-    private TextView tvTest;
+	@Override
+	public void setupDIComponent() {
+		DaggerTestMainComponent.builder().testMainModule(new TestMainModule(this)).build().inject(this);
+	}
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+	@Override
+	public void setTextContent(String text) {
 
-        presenter.loadData();
-    }
-
-    @Override
-    public void bindViews() {
-        tvTest = ((TextView) findViewById(R.id.tvTest));
-        rcyTest = (RecyclerView) findViewById(R.id.rcyTest);
-        rcyTest.setAdapter(adapter);
-    }
-
-    @Override
-    public void setupDIComponent() {
-        DaggerTestMainComponent.builder()
-                .testMainModule(new TestMainModule(this))
-                .build()
-                .inject(this);
-    }
-
-    @Override
-    public void setTextContent(String text) {
-        tvTest.setText(text);
-    }
+	}
 }

@@ -8,6 +8,7 @@ import dagger.Provides;
 import tj.exercise.dagger.adapter.MainListAdapter;
 import tj.exercise.dagger.p.TestMainPresenter;
 import tj.exercise.dagger.v.TestMainView;
+import tj.exercise.dagger.v.vw.TestMainViewWrapper;
 import tj.exercise.simplemvp.di.ActivityScoped;
 
 /**
@@ -17,34 +18,40 @@ import tj.exercise.simplemvp.di.ActivityScoped;
 @Module
 public class TestMainModule {
 
-    private TestMainView mView;
+	private TestMainView mView;
 
-    public TestMainModule(TestMainView view) {
-        this.mView = view;
-    }
+	public TestMainModule(TestMainView view) {
+		this.mView = view;
+	}
 
-    @Provides
-    @ActivityScoped
-    TestMainView providesMainView() {
-        return mView;
-    }
+	@Provides
+	@ActivityScoped
+	TestMainView providesMainView() {
+		return mView;
+	}
 
-    @Provides
-    @ActivityScoped
-    TestMainPresenter providePresenter() {
-        return new TestMainPresenter(mView);
-    }
+	@Provides
+	@ActivityScoped
+	TestMainPresenter providePresenter() {
+		return new TestMainPresenter(mView);
+	}
 
-    @Provides
-    @ActivityScoped
-    MainListAdapter provideListAdapter(List<String> data) {
-        return new MainListAdapter(data);
-    }
+	@Provides
+	@ActivityScoped
+	TestMainViewWrapper provideViewWrapper() {
+		return new TestMainViewWrapper(mView);
+	}
 
-    @Provides
-    @ActivityScoped
-    List<String> provideListData() {
-        List<String> data = new ArrayList<>();
-        return data;
-    }
+	@Provides
+	@ActivityScoped
+	MainListAdapter provideListAdapter(List<String> data) {
+		return new MainListAdapter(data);
+	}
+
+	@Provides
+	@ActivityScoped
+	List<String> provideListData() {
+		List<String> data = new ArrayList<>();
+		return data;
+	}
 }

@@ -1,24 +1,31 @@
 package tj.exercise.simplemvp.base.p;
 
-import tj.exercise.simplemvp.base.v.BaseView;
+import javax.inject.Inject;
 
 /**
  * Created by tangjie on 28,八月,2017
  */
 
-public class AbsPresenter<T extends BaseView> {
+public class AbsPresenter<V, VW> implements Presenter<V, VW> {
 
-    protected T mView;
+	public V view;
 
-    public AbsPresenter(T view) {
-        attachView();
-    }
+	@Inject
+	protected VW viewWrapper;
 
-    public void attachView() {
+	@Override
+	public void attachView(V mvpView) {
+		this.view = mvpView;
+	}
 
-    }
+	@Override
+	public void setViewWrapper(VW viewWrapper) {
+		this.viewWrapper = viewWrapper;
+	}
 
-    public void dettachView() {
-        this.mView = null;
-    }
+	@Override
+	public void detachView() {
+		this.view = null;
+		viewWrapper = null;
+	}
 }
