@@ -26,7 +26,7 @@ import tj.exercise.simplemvp.databinding.BaseDataBinding;
  * Created by tangjie on 28,八月,2017
  */
 
-public abstract class MvpvmFragment<P extends AbsPresenter, VW extends AbsViewWrapper, D extends ViewDataBinding>
+public abstract class MvpvmAbsFragment<P extends AbsPresenter, VW extends AbsViewWrapper, D extends ViewDataBinding>
 		extends AbsFragment {
 
 	protected D dataBinding;
@@ -92,6 +92,7 @@ public abstract class MvpvmFragment<P extends AbsPresenter, VW extends AbsViewWr
 		assert actionBar != null;
 		actionBar.setDisplayHomeAsUpEnabled(backEnable);
 		actionBar.setDisplayShowTitleEnabled(titleEnable);
+		setTitle(activity.getTitle() != null ? activity.getTitle().toString() : null);
 	}
 
 	public BaseDataBinding getBaseBinding() {
@@ -153,5 +154,23 @@ public abstract class MvpvmFragment<P extends AbsPresenter, VW extends AbsViewWr
 			baseBinding = null;
 		}
 		super.onDetach();
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		if (activity != null && activity instanceof IBaseToolbar && ((IBaseToolbar) activity).enableBaseToolbar()) {
+			if (((IBaseToolbar) activity).isBaseToolbarCenterTitle()) {
+				getBaseBinding().toolbarLayout.tvCenterTitle.setText(title);
+			} else {
+				getBaseBinding().toolbarLayout.tvLeftTitle.setText(title);
+			}
+		} else {
+			activity.setTitle(title);
+		}
+	}
+
+	@Override
+	public void setTitle(int titleId) {
+		setTitle(getString(titleId));
 	}
 }

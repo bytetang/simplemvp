@@ -18,12 +18,11 @@ import tj.exercise.simplemvp.base.p.AbsPresenter;
 import tj.exercise.simplemvp.base.v.vw.AbsViewWrapper;
 import tj.exercise.simplemvp.base.vm.ToolbarModel;
 import tj.exercise.simplemvp.databinding.BaseDataBinding;
-import tj.exercise.simplemvp.widget.statusbar.StatusBarUtil;
 
 /**
  * Created by tangjie on 28,八月,2017
  */
-public abstract class MvpvmActivity<P extends AbsPresenter, VW extends AbsViewWrapper, D extends ViewDataBinding>
+public abstract class MvpvmAbsActivity<P extends AbsPresenter, VW extends AbsViewWrapper, D extends ViewDataBinding>
 		extends AbsActivity {
 
 	@Inject
@@ -46,6 +45,7 @@ public abstract class MvpvmActivity<P extends AbsPresenter, VW extends AbsViewWr
 		activity = this;
 		if (activity instanceof IBaseToolbar && ((IBaseToolbar) activity).enableBaseToolbar()) {
 			baseBinding = DataBindingUtil.setContentView(this, R.layout.base);
+			toolbar = baseBinding.toolbarLayout.toolbar;
 			ToolbarModel toolbarModel = new ToolbarModel();
 			toolbarModel.setShowLeftTitle(!((IBaseToolbar) activity).isBaseToolbarCenterTitle());
 			baseBinding.setToolbarModel(toolbarModel);
@@ -54,22 +54,17 @@ public abstract class MvpvmActivity<P extends AbsPresenter, VW extends AbsViewWr
 			} else {
 				baseBinding.getToolbarModel().setShowTabLayout(false);
 			}
-			if (!((IBaseToolbar) activity).enableBaseToolbarNavigationIcon()) {
-				baseBinding.toolbarLayout.toolbar.setNavigationIcon(null);
-			}
 			baseBinding.toolbarLayout.toolbar.setTitleTextColor(Color.BLACK);
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			dataBinding = DataBindingUtil.inflate(inflater, layoutResID, baseBinding.contentLayout, true);
-			enableToolBar(baseBinding.toolbarLayout.toolbar, true, false);
+			enableToolBar(baseBinding.toolbarLayout.toolbar,
+					((IBaseToolbar) activity).enableBaseToolbarNavigationIcon(),
+					!((IBaseToolbar) activity).isBaseToolbarCenterTitle());
 		} else {
 			dataBinding = DataBindingUtil.setContentView(this, layoutResID);
 		}
 
 		initPresenterAndViewWrapper();
-	}
-
-	protected void setStatusBar() {
-		StatusBarUtil.setColor(this, Color.TRANSPARENT, 0);
 	}
 
 	public void enableToolBar(Toolbar toolbar, boolean backEnable, boolean titleEnable) {
@@ -78,7 +73,7 @@ public abstract class MvpvmActivity<P extends AbsPresenter, VW extends AbsViewWr
 		assert actionBar != null;
 		actionBar.setDisplayHomeAsUpEnabled(backEnable);
 		actionBar.setDisplayShowTitleEnabled(titleEnable);
-		setStatusBar();
+		setTitle(getTitle() != null ? getTitle().toString() : null);
 	}
 
 	public BaseDataBinding getBaseBinding() {
@@ -122,4 +117,21 @@ public abstract class MvpvmActivity<P extends AbsPresenter, VW extends AbsViewWr
 		super.onDestroy();
 	}
 
+	@Override
+	public void setTitle(CharSequence title) {
+		if (activity instanceof IBaseToolbar && ((IBaseToolbar) activity).enableBaseToolbar()) {
+			if (((IBaseToolbar) activity).isBaseToolbarCenterTitle()) {
+				getBaseBinding().toolbarLayout.tvCenterTitle.setText(title);
+			} else {
+				getBaseBinding().toolbarLayout.tvLeftTitle.setText(title);
+			}
+		} else {
+			super.setTitle(title);
+		}
+	}
+
+	@Override
+	public void setTitle(int titleId) {
+		setTitle(getString(titleId));
+	}
 }

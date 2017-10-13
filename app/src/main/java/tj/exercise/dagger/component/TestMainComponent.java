@@ -10,8 +10,8 @@ import tj.exercise.simplemvp.di.ActivityScoped;
  */
 
 @ActivityScoped
-@Component(modules = {TestMainModule.class})
+@Component(modules = { TestMainModule.class })
 public interface TestMainComponent {
 
-    void inject(TestMainActivity activity);
+	void inject(TestMainActivity activity);
 }

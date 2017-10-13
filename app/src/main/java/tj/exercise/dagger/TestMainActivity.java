@@ -9,7 +9,8 @@ import tj.exercise.dagger.module.TestMainModule;
 import tj.exercise.dagger.p.TestMainPresenter;
 import tj.exercise.dagger.v.TestMainView;
 import tj.exercise.dagger.v.vw.TestMainViewWrapper;
-import tj.exercise.simplemvp.base.v.MvpvmActivity;
+import tj.exercise.simplemvp.base.v.IBaseToolbar;
+import tj.exercise.simplemvp.base.v.MvpvmAbsActivity;
 import tj.exercise.simplemvp.di.ActivityScoped;
 
 /**
@@ -17,8 +18,8 @@ import tj.exercise.simplemvp.di.ActivityScoped;
  */
 
 @ActivityScoped
-public class TestMainActivity extends MvpvmActivity<TestMainPresenter, TestMainViewWrapper, TestMainDataBinding>
-		implements TestMainView {
+public class TestMainActivity extends MvpvmAbsActivity<TestMainPresenter, TestMainViewWrapper, TestMainDataBinding>
+		implements TestMainView, IBaseToolbar {
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,5 +36,25 @@ public class TestMainActivity extends MvpvmActivity<TestMainPresenter, TestMainV
 	@Override
 	public void setTextContent(String text) {
 
+	}
+
+	@Override
+	public boolean enableBaseToolbar() {
+		return true;
+	}
+
+	@Override
+	public boolean enableBaseTabLayout() {
+		return false;
+	}
+
+	@Override
+	public boolean isBaseToolbarCenterTitle() {
+		return true;
+	}
+
+	@Override
+	public boolean enableBaseToolbarNavigationIcon() {
+		return false;
 	}
 }

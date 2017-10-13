@@ -8,7 +8,11 @@ import android.content.DialogInterface;
  * Created by tangjie on 28,八月,2017
  */
 
-public interface BaseView {
+public interface IBaseView {
+
+	void setTitle(int titleId);
+
+	void setTitle(CharSequence title);
 
 	void showToast(int resId);
 

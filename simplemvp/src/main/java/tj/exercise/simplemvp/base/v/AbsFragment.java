@@ -9,7 +9,7 @@ import android.widget.Toast;
  * Description: <> Author: qiyangzhao Date: 12/10/2017 Copyright: Ctrip
  */
 
-public abstract class AbsFragment extends Fragment implements BaseView {
+public abstract class AbsFragment extends Fragment implements IBaseView {
 
 	protected AbsActivity activity;
 	AbsFragment fragment;
