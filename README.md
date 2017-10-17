@@ -7,7 +7,7 @@
 
 todo:
 
-databinding base support:toolbar ,recycleview （vm 以及视图控制逻辑的分离）
+databinding base support:toolbar ,recycleview holder databind支持（vm 以及视图控制逻辑的分离）
 
 viewwrapper模块添加（用于databinding逻辑分离）（减轻activity业务逻辑）
 
