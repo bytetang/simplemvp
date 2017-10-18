@@ -11,6 +11,10 @@ public abstract class AbsViewWrapper<V, D extends ViewDataBinding> implements Vi
 	protected V view;
 	protected D dataBinding;
 
+	public AbsViewWrapper(V view) {
+		attachView(view);
+	}
+
 	@Override
 	public void attachView(V view) {
 		this.view = view;

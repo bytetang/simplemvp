@@ -17,8 +17,9 @@ public class TestMainViewWrapper extends AbsViewWrapper<TestMainView, TestMainDa
 	@Inject
 	MainListAdapter adapter;
 
+	@Inject
 	public TestMainViewWrapper(TestMainView view) {
-		attachView(view);
+		super(view);
 	}
 
 	@Override

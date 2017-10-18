@@ -14,7 +14,7 @@ public class TestMainPresenter extends AbsPresenter<TestMainView, ITestMainViewW
 
 	@Inject
 	public TestMainPresenter(TestMainView view) {
-		attachView(view);
+		super(view);
 	}
 
 	public void loadData() {

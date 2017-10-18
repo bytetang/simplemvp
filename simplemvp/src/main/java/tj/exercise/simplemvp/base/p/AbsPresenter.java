@@ -13,6 +13,10 @@ public class AbsPresenter<V, VW> implements Presenter<V, VW> {
 	@Inject
 	protected VW viewWrapper;
 
+	public AbsPresenter(V view) {
+		attachView(view);
+	}
+
 	@Override
 	public void attachView(V mvpView) {
 		this.view = mvpView;
